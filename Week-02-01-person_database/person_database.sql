@@ -4,8 +4,8 @@
 请为每个字段选取合适的类型,提交你的建表SQL
 */
 
-CREATE DATABASE IF NOT EXISTS person_service;
-USE person_service;
+CREATE DATABASE IF NOT EXISTS week_02_01_person_service;
+USE week_02_01_person_service;
 
 CREATE TABLE IF NOT EXISTS person(
 	personName VARCHAR(20),

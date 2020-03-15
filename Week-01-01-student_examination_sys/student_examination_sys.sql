@@ -1,5 +1,5 @@
-CREATE DATABASE student_examination_sys;
-USE student_examination_sys;
+CREATE DATABASE week_01_01_student_examination_sys;
+USE week_01_01_student_examination_sys;
 
 CREATE TABLE student(id VARCHAR(10), name VARCHAR(32), age INT, sex VARCHAR(10));
 INSERT INTO student(id, name, age, sex) VALUES ("001", "张三", 18, "男");
