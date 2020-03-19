@@ -44,7 +44,7 @@ public class StudentRepository {
   public List<Student> query() {
     // TODO:
     List<Student> studentList = new ArrayList<>();
-    String querySql = "SELECT * FROM student_info";
+    String querySql = "SELECT id, name, gender, admissionYear, birthday, classID FROM student_info";
     try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(querySql)) {
@@ -68,7 +68,8 @@ public class StudentRepository {
   public List<Student> queryByClassId(String classId) {
     // TODO:
     List<Student> studentList = new ArrayList<>();
-    String querySql = String.format("SELECT * FROM student_info WHERE classId = '%s' ORDER BY id DESC", classId);
+    String querySql = String.format("SELECT id, name, gender, admissionYear, birthday, classID " +
+        "FROM student_info WHERE classId = '%s' ORDER BY id DESC", classId);
 
     try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
          Statement statement = connection.createStatement();
