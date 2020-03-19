@@ -29,7 +29,7 @@ CREATE TABLE student_info (
     班级 VARCHAR(10)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-INSERT INTO student_info VALUES
+INSERT INTO student_info(学号, 姓名, 性别, 入学时间, 生日, 班级) VALUES
 	('001', '张三', '男', '2020', '1994-01-12', '1-13'),
 	('002', '李四', '男', '2020', '1994-05-25', '1-1'),
 	('003', '王五', '男', '2019', '1995-04-02', '2-10'),
@@ -37,23 +37,23 @@ INSERT INTO student_info VALUES
 	('005', '钱风', '男', '2020', '1993-01-10', '1-1'),
 	('006', '吴兰', '女', '2019', '1995-06-09', '2-1'),
 	('007', '李云', '女', '2019', '1993-08-11', '1-1');
-SELECT * FROM student_info;
+SELECT 学号, 姓名, 性别, 入学时间, 生日, 班级 FROM student_info;
 
 --    1. 查询1-1班的所有男生姓名
 SELECT 姓名 FROM student_info
 WHERE 班级 = '1-1' AND 性别 = '男';
 
 --    2. 查询所有姓王的同学的信息
-SELECT * FROM student_info
+SELECT 学号, 姓名, 性别, 入学时间, 生日, 班级 FROM student_info
 WHERE 姓名 LIKE '王%';
 
 --    3. 查询1-1班的所有同学的信息并按照学号倒序排列
-SELECT * FROM student_info
+SELECT 学号, 姓名, 性别, 入学时间, 生日, 班级 FROM student_info
 WHERE 班级 = '1-1'
 ORDER BY 学号 DESC;
 
 --    4. 查询2019年入学且在1993-01-01号之后出生的同学的信息
-SELECT * FROM student_info
+SELECT 学号, 姓名, 性别, 入学时间, 生日, 班级 FROM student_info
 WHERE 入学时间 = '2019' AND 生日 > '1993-01-01';
 
 --    5. 查询2020年入学的年最小的同学姓名和生日

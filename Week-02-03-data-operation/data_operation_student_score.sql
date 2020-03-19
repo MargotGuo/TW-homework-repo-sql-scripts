@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS student_score (
     sex ENUM('男', '女')
 );
 
-INSERT INTO student_score VALUES 
+INSERT INTO student_score(id, name, age, sex) VALUES 
 	(1, '张三', 18, '女'),
     (2, '李四', 20, '男'),
     (3, '王五', 20, '女');
-SELECT * FROM student_score;
+SELECT id, name, age, sex FROM student_score;
 
 UPDATE student_score SET name = '小花', sex = '女' WHERE id = 1;
-SELECT * FROM student_score;
+SELECT id, name, age, sex FROM student_score;
 
 DELETE FROM student_score WHERE age = 20 AND sex = '女';
-SELECT * FROM student_score;
+SELECT id, name, age, sex FROM student_score;

@@ -26,7 +26,7 @@ public class StudentRepository {
   public void save(Student student) {
     // TODO:
 
-    String saveSql = "INSERT INTO student_info VALUES(?,?,?,?,?,?)";
+    String saveSql = "INSERT INTO student_info(id, name, gender, admissionYear, birthday, classID) VALUES(?,?,?,?,?,?)";
     try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
          PreparedStatement preparedStatement = connection.prepareStatement(saveSql)) {
       preparedStatement.setString(1, student.getId());
