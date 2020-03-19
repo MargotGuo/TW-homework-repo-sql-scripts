@@ -49,20 +49,14 @@ WHERE 生日 = (
 -- 2. 计算男生的数量并命名为male_students_count
 SELECT COUNT(学号) 
 AS male_students_count
-FROM (
-	SELECT 学号
-    FROM student_info
-    WHERE 性别 = '男'
-) AS male_table;
+FROM student_info
+WHERE 性别 = '男';
 
 -- 3. 按入学时间分类，查找不同入学时间的女生学生个数及对应的入学时间，按时间顺序从前往后排序
 SELECT
 	入学时间,
     COUNT(学号) AS 当年入学女生
-FROM (
-	SELECT 学号, 姓名, 性别, 入学时间, 生日, 班级
-    FROM student_info
-    WHERE 性别 = '女'
-) AS female_table
+FROM student_info
+WHERE 性别 = '女'
 GROUP BY 入学时间
 ORDER BY 入学时间 ASC;
