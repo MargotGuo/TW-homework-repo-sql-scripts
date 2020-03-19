@@ -56,8 +56,7 @@ public class StudentRepository {
         Date birthday = resultSet.getDate("birthday");
         String classID = resultSet.getString("classID");
 
-        Student student = new Student(id, name, gender, admissionYear, FORMAT.format(birthday), classID);
-        studentList.add(student);
+        studentList.add(new Student(id, name, gender, admissionYear, FORMAT.format(birthday), classID));
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -110,7 +109,7 @@ public class StudentRepository {
     // TODO:
     String deleteSql = "DELETE from student_info WHERE id = ?";
     try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-         PreparedStatement preparedStatement = connection.prepareStatement(deleteSql);) {
+         PreparedStatement preparedStatement = connection.prepareStatement(deleteSql)) {
       preparedStatement.setString(1, id);
       preparedStatement.execute();
     } catch (SQLException e) {
