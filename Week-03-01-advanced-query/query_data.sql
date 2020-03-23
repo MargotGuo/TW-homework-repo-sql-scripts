@@ -99,6 +99,21 @@ LEFT JOIN
 	) AS score_detail
 ON student.sno = score_detail.sno;
 
+SELECT 
+    sname AS student_name,
+	cname AS course_name,
+	degree
+FROM
+    student
+LEFT JOIN 
+    score
+ON
+    student.sno = score.sno
+LEFT JOIN
+    course
+ON
+    score.cno = course.cno;
+
 -- 查询和学号为101的同学同年出生的所有学生的学号、姓名和生日。
 SELECT
 	sno AS student_id,
