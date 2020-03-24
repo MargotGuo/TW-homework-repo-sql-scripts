@@ -13,12 +13,12 @@ public class App {
       System.out.println(MAIN_PAGE_MESSAGE);
       operation = scanner.nextLine();
       if (operation.equals("1")) {
-        SignUpUtil.printHint();
-        SignUpUtil.signUp();
+        SignUpProcessor.printHint();
+        SignUpProcessor.signUp();
       }
       if (operation.equals("2")) {
-        SignInUtil.printHint();
-        SignInUtil.signIn();
+        SignInProcessor.printHint();
+        SignInProcessor.signIn();
       }
     } while (!operation.equals("3"));
   }

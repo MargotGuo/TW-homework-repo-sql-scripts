@@ -1,8 +1,5 @@
 package com.thoughtworks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Account {
   private String username;
   private String telephone;
@@ -71,39 +68,5 @@ public class Account {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public boolean isValidUserName() {
-    return username.length() >= 2 && username.length() <= 10;
-  }
-
-  public boolean isValidTelephone() {
-    for (int i = 0; i < telephone.length(); i++) {
-      if (!Character.isDigit(telephone.charAt(i))) {
-        return false;
-      }
-    }
-    return telephone.startsWith("1") && telephone.length() == 11;
-  }
-
-  public boolean isValidEmail() {
-    return email.contains("@");
-  }
-
-  public boolean isValidPassword() {
-    int numberCount = 0;
-    int letterCount = 0;
-    for (int i = 0; i < password.length(); i++) {
-      if (Character.isDigit(password.charAt(i))) {
-        numberCount++;
-      }
-      if (Character.isAlphabetic(password.charAt(i))) {
-        letterCount++;
-      }
-      if (password.charAt(i) < '!' || password.charAt(i) > '~') {
-        return false;
-      }
-    }
-    return password.length() >= 8 && password.length() <= 16 && numberCount > 0 && letterCount > 0;
   }
 }
