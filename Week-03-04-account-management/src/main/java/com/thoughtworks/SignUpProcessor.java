@@ -1,81 +1,84 @@
 package com.thoughtworks;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class SignUpProcessor {
-
   private final static String SIGN_UP_HINT = "请输入注册信息(格式：用户名,手机号,邮箱,密码)：";
   private final static String WRONG_FORMAT_HINT = "格式错误\n请按正确格式输入注册信息：";
   private final static String INVALID_ITEM = "%s不合法\n";
   private final static String RE_INPUT_HINT = "请输入合法的注册信息：";
   private final static String SIGN_UP_SUCCESS = "%s，恭喜你注册成功！\n";
+  private final static Scanner scanner = new Scanner(System.in);
 
-  private static Scanner scanner = new Scanner(System.in);
+  private String inputUsername;
+  private String inputTelephone;
+  private String inputEmail;
+  private String inputPassword;
+  private Boolean isRightFormat = true;
 
-  private SignUpProcessor() {
-  }
-
-  public static void printHint() {
-    System.out.println(SIGN_UP_HINT);
-  }
-
-  public static void signUp() {
-    String inputMessage = scanner.nextLine();
-    String[] signUpDetail = inputMessage.split(",");
-    if (FormatChecker.isInRightFormat(signUpDetail, 4) && isValid(signUpDetail)) {
-      Account account = getAccountFromInput(signUpDetail);
-      ConnectorUtil.saveData(account);
-      System.out.printf(SIGN_UP_SUCCESS, account.getUsername());
+  public SignUpProcessor(String inputMessage) {
+    String[] messageDetail = inputMessage.split(",");
+    if (messageDetail.length == 4) {
+      inputUsername = messageDetail[0];
+      inputTelephone = messageDetail[1];
+      inputEmail = messageDetail[2];
+      inputPassword = messageDetail[3];
     } else {
-      System.out.println(getErrorMessage(signUpDetail));
-      signUp();
+      isRightFormat = false;
     }
   }
 
-  private static boolean isValid(String[] signUpDetail) {
-    return FormatChecker.isValidUserName(signUpDetail[0])
-        && FormatChecker.isValidTelephone(signUpDetail[1])
-        && FormatChecker.isValidEmail(signUpDetail[2])
-        && FormatChecker.isValidPassword(signUpDetail[3]);
+  public void signUp() {
+    if (!this.isRightFormat) {
+      System.out.println(WRONG_FORMAT_HINT);
+      new SignUpProcessor(scanner.nextLine()).signUp();
+    } else if (!isValid()) {
+      System.out.println(getErrorMessage());
+      new SignUpProcessor(scanner.nextLine()).signUp();
+    } else {
+      saveData();
+      System.out.printf(SIGN_UP_SUCCESS, inputUsername);
+    }
   }
 
-  private static String getErrorMessage(String[] signUpDetail) {
-    if (!FormatChecker.isInRightFormat(signUpDetail, 4)) {
-      return WRONG_FORMAT_HINT;
-    }
-    List<String> inValidItems = getInValidItems(signUpDetail);
-    String errorMessage = inValidItems.stream()
-        .map(item -> String.format(INVALID_ITEM, item))
-        .collect(Collectors.joining(""));
-    return errorMessage + RE_INPUT_HINT;
+  private boolean isValid() {
+    return FormatChecker.isValidUserName(inputUsername)
+        && FormatChecker.isValidTelephone(inputTelephone)
+        && FormatChecker.isValidEmail(inputEmail)
+        && FormatChecker.isValidPassword(inputPassword);
   }
 
-  private static List<String> getInValidItems(String[] signUpDetail) {
-    List<String> inValidItems = new ArrayList<>();
-    if (!FormatChecker.isValidUserName(signUpDetail[0])) {
-      inValidItems.add("用户名");
+  private void saveData() {
+    String saveSql = "INSERT INTO account(username, telephone, email, password) VALUES (?,?,?,?)";
+    try (Connection connection = ConnectionUtil.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(saveSql)) {
+      preparedStatement.setString(1, inputUsername);
+      preparedStatement.setString(2, inputTelephone);
+      preparedStatement.setString(3, inputEmail);
+      preparedStatement.setString(4, inputPassword);
+      preparedStatement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    if (!FormatChecker.isValidTelephone(signUpDetail[1])) {
-      inValidItems.add("手机号");
-    }
-    if (!FormatChecker.isValidEmail(signUpDetail[2])) {
-      inValidItems.add("邮箱");
-    }
-    if (!FormatChecker.isValidPassword(signUpDetail[3])) {
-      inValidItems.add("密码");
-    }
-    return inValidItems;
   }
 
-  private static Account getAccountFromInput(String[] signUpDetail) {
-    Account account = new Account();
-    account.setUsername(signUpDetail[0]);
-    account.setTelephone(signUpDetail[1]);
-    account.setEmail(signUpDetail[2]);
-    account.setPassword(signUpDetail[3]);
-    return account;
+  private String getErrorMessage() {
+    StringBuilder output = new StringBuilder();
+    if (!FormatChecker.isValidUserName(inputUsername)) {
+      output.append(String.format(INVALID_ITEM, "用户名"));
+    }
+    if (!FormatChecker.isValidTelephone(inputTelephone)) {
+      output.append(String.format(INVALID_ITEM, "手机号"));
+    }
+    if (!FormatChecker.isValidEmail(inputEmail)) {
+      output.append(String.format(INVALID_ITEM, "邮箱"));
+    }
+    if (!FormatChecker.isValidPassword(inputPassword)) {
+      output.append(String.format(INVALID_ITEM, "密码"));
+    }
+    return output.toString() + RE_INPUT_HINT;
   }
 }

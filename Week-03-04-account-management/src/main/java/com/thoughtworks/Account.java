@@ -17,8 +17,6 @@ public class Account {
     this.status = status;
   }
 
-  public Account() {}
-
   public String getUsername() {
     return username;
   }
@@ -43,6 +41,10 @@ public class Account {
     return status;
   }
 
+  public boolean isLocked() {
+    return status.equals("LOCKED");
+  }
+
   public void addWrongInputCount() {
     this.wrongInputCount++;
     if (wrongInputCount == 3) {
@@ -52,21 +54,5 @@ public class Account {
 
   public void resetWrongInputCount() {
     this.wrongInputCount = 0;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public void setTelephone(String telephone) {
-    this.telephone = telephone;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
   }
 }

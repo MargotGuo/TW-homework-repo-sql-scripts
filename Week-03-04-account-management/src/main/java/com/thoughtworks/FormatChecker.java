@@ -1,11 +1,6 @@
 package com.thoughtworks;
 
 public class FormatChecker {
-
-  public static boolean isInRightFormat(String[] signUpDetail, int requiredLength) {
-    return signUpDetail.length == requiredLength;
-  }
-
   public static boolean isValidUserName(String username) {
     return username.length() >= 2 && username.length() <= 10;
   }
