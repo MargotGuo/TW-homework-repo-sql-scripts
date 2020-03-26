@@ -13,4 +13,8 @@ CREATE TABLE account(
 
 SELECT username, telephone, email, password, wrong_input_count, status FROM account;
 
+UPDATE account SET wrong_input_count = 0, status = 'ACTIVE' WHERE username = 'Lily';
+
+-- SELECT * FROM account where username = 'gyq';
+
 -- INSERT INTO account (username, telephone, email, password) VALUES ('gyq','13070150056','gyqgdn@126.com','7453hfjer');
