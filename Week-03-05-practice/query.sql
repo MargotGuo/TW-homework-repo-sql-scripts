@@ -1,3 +1,5 @@
+USE week_03_05_practice;
+
 -- > 1．列出至少有一个员工的所有部门。
 SELECT 
     COUNT(*) AS employe_count, dept.name
@@ -110,7 +112,32 @@ WHERE
             name = '周八');
 
 -- > 11．列出薪金等于部门30中员工的薪金的所有员工的姓名和薪金。
+SELECT 
+    name, salary
+FROM
+    emp
+WHERE
+    salary IN (SELECT 
+            salary
+        FROM
+            emp
+        WHERE
+            dept_no = 30);
 
+-- > 12．列出薪金高于在部门30工作的所有员工的薪金的员工姓名和薪金。
+SELECT 
+    name, salary
+FROM
+    emp
+WHERE
+    salary > (SELECT 
+            MAX(salary)
+        FROM
+            emp
+        WHERE
+            dept_no = 30);
+
+-- > 13．列出在每个部门工作的员工数量、平均工资。
 SELECT 
     dept_no,
     COUNT(*) AS employee_count,
@@ -263,7 +290,8 @@ SELECT
 FROM
     emp
 WHERE
-    emp_no = 7521 OR emp_no = 7900 OR emp_no = 7782;
+    emp_no = 7521 OR emp_no = 7900
+        OR emp_no = 7782;
     
 SELECT 
     emp_no,
@@ -277,7 +305,7 @@ SELECT
 FROM
     emp
 WHERE
-    emp_no IN (7521, 7900, 7782);
+    emp_no IN (7521 , 7900, 7782);
 
 -- > 26.查询出名字中有“张”字符，并且薪水在1000以上（不包括1000）的所有员工信息。
 SELECT 
@@ -321,7 +349,7 @@ SELECT
     dept_no
 FROM
     emp
-ORDER BY salary ASC, hiredate DESC;
+ORDER BY salary ASC , hiredate DESC;
 
 -- > 29.将所有员工按照名字首字母升序排序，首字母相同的按照薪水降序排序。 order by convert(name using gbk) asc; 
 SELECT 
@@ -335,7 +363,7 @@ SELECT
     dept_no
 FROM
     emp
-ORDER BY CONVERT(name USING gbk) ASC, salary DESC;
+ORDER BY CONVERT( name USING GBK) ASC , salary DESC;
 
 -- > 30.查询出最早工作的那个人的名字、入职时间和薪水。
 SELECT 
@@ -372,7 +400,8 @@ SELECT
     MIN(salary) AS min_salary
 FROM
     emp
-WHERE dept_no <> 10
+WHERE
+    dept_no <> 10
 GROUP BY dept_no;
 
 -- > 34.删除10号部门薪水最高的员工。
@@ -384,15 +413,33 @@ CREATE VIEW highest_salary_in_dept_10 AS
     WHERE
         dept_no = 10;
 
-DELETE FROM
-    emp
+DELETE FROM emp 
 WHERE
     salary = (SELECT 
-            max_salary
-        FROM
-            highest_salary_in_dept_10);
+        max_salary
+    FROM
+        highest_salary_in_dept_10);
 
 -- > 35.将薪水最高的员工的薪水降30%。
+UPDATE emp 
+SET 
+    salary = 0.7 * (SELECT 
+            MAX(salary)
+        FROM
+            (SELECT 
+                MAX(salary)
+            FROM
+                emp) AS max_salary)
+WHERE
+    salary IN (SELECT 
+            MAX(salary)
+        FROM
+            (SELECT 
+                MAX(salary)
+            FROM
+                emp) AS max_salary);
+                
+SELECT * FROM emp WHERE name = '吴九';
 
 -- > 36.查询员工姓名，工资和 工资级别(工资>=3000 为3级，工资>2000 为2级，工资<=2000 为1级)
 -- > 语法：case when ... then ... when ... then ... else ... end
