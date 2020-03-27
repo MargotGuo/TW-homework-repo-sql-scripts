@@ -1,6 +1,6 @@
 package com.thoughtworks;
 
-public class Account {
+public class User {
   private String username;
   private String telephone;
   private String email;
@@ -8,13 +8,20 @@ public class Account {
   private int wrongInputCount;
   private String status;
 
-  public Account(String username, String telephone, String email, String password, int wrongInputCount, String status) {
+  public User(String username, String telephone, String email, String password, int wrongInputCount, String status) {
     this.username = username;
     this.telephone = telephone;
     this.email = email;
     this.password = password;
     this.wrongInputCount = wrongInputCount;
     this.status = status;
+  }
+
+  public User(String username, String telephone, String email, String password) {
+    this.username = username;
+    this.telephone = telephone;
+    this.email = email;
+    this.password = password;
   }
 
   public String getUsername() {

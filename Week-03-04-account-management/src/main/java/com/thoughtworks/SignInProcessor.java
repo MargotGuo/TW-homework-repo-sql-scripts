@@ -1,10 +1,5 @@
 package com.thoughtworks;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class SignInProcessor {
@@ -14,85 +9,50 @@ public class SignInProcessor {
   private final static String WELCOME = "%s，欢迎回来！\n您的手机号是%s，邮箱是%s\n";
   private final static Scanner scanner = new Scanner(System.in);
 
-  private String inputUsername;
   private String inputPassword;
   private Boolean isRightFormat = true;
-  private Account account;
+  private User user;
 
   public SignInProcessor(String inputMessage) {
     String[] messageDetail = inputMessage.split(",");
     if (messageDetail.length == 2) {
-      inputUsername = messageDetail[0];
+      String inputUsername = messageDetail[0];
       inputPassword = messageDetail[1];
-      account = queryAccount();
+      user = ConnectionUtil.queryAccount(inputUsername);
     } else {
       isRightFormat = false;
     }
   }
 
   public void signIn() {
-    if (account == null) {
+    if (user == null) {
       System.out.println(isRightFormat ? INVALID_INPUT : WRONG_FORMAT_HINT);
       new SignInProcessor(scanner.nextLine()).signIn();
-    } else if (account.isLocked()) {
+    } else if (user.isLocked()) {
       System.out.println(FREEZE_ACCOUNT);
     } else {
-      refreshCount();
+      refreshInputTimes();
       checkPassword();
     }
   }
 
-  private Account queryAccount() {
-    String querySQL = String.format("SELECT username, telephone, email, password, wrong_input_count, status " +
-        "FROM account WHERE username = '%s'", inputUsername);
-    try (Connection connection = ConnectionUtil.getConnection();
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery(querySQL)) {
-      if (resultSet.next()) {
-        return new Account(
-            resultSet.getString("username"),
-            resultSet.getString("telephone"),
-            resultSet.getString("email"),
-            resultSet.getString("password"),
-            resultSet.getInt("wrong_input_count"),
-            resultSet.getString("status"));
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  private void refreshCount() {
-    if (account.getPassword().equals(inputPassword)) {
-      account.resetWrongInputCount();
+  private void refreshInputTimes() {
+    if (user.getPassword().equals(inputPassword)) {
+      user.resetWrongInputCount();
     } else {
-      account.addWrongInputCount();
+      user.addWrongInputCount();
     }
-    updateStatus();
+    ConnectionUtil.updateStatus(user);
   }
 
   private void checkPassword() {
-    if (account.isLocked()) {
+    if (user.isLocked()) {
       System.out.println(FREEZE_ACCOUNT);
-    } else if (account.getPassword().equals(inputPassword)) {
-      System.out.printf(WELCOME, account.getUsername(), account.getTelephone(), account.getEmail());
+    } else if (user.getPassword().equals(inputPassword)) {
+      System.out.printf(WELCOME, user.getUsername(), user.getTelephone(), user.getEmail());
     } else {
       System.out.println(INVALID_INPUT);
       new SignInProcessor(scanner.nextLine()).signIn();
-    }
-  }
-
-  private void updateStatus() {
-    String updateStatusSQL = "UPDATE account SET wrong_input_count = ?, status = ? WHERE username = ?";
-    try (Connection connection = ConnectionUtil.getConnection();
-         PreparedStatement preparedStatement = connection.prepareStatement(updateStatusSQL)) {
-      preparedStatement.setInt(1, account.getWrongInputCount());
-      preparedStatement.setString(2, account.getStatus());
-      preparedStatement.setString(3, account.getUsername());
-      preparedStatement.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
     }
   }
 }

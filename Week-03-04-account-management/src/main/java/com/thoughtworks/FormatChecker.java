@@ -1,37 +1,33 @@
 package com.thoughtworks;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class FormatChecker {
+
+  private FormatChecker(){};
+
   public static boolean isValidUserName(String username) {
-    return username.length() >= 2 && username.length() <= 10;
+    Pattern compile = Pattern.compile(".{2,10}");
+    Matcher matcher = compile.matcher(username);
+    return matcher.matches();
   }
 
   public static boolean isValidTelephone(String telephone) {
-    for (int i = 0; i < telephone.length(); i++) {
-      if (!Character.isDigit(telephone.charAt(i))) {
-        return false;
-      }
-    }
-    return telephone.startsWith("1") && telephone.length() == 11;
+    Pattern compile = Pattern.compile("1[0-9]{10}");
+    Matcher matcher = compile.matcher(telephone);
+    return matcher.matches();
   }
 
   public static boolean isValidEmail(String email) {
-    return email.contains("@");
+    Pattern compile = Pattern.compile(".+@.+");
+    Matcher matcher = compile.matcher(email);
+    return matcher.matches();
   }
 
   public static boolean isValidPassword(String password) {
-    int numberCount = 0;
-    int letterCount = 0;
-    for (int i = 0; i < password.length(); i++) {
-      if (Character.isDigit(password.charAt(i))) {
-        numberCount++;
-      }
-      if (Character.isAlphabetic(password.charAt(i))) {
-        letterCount++;
-      }
-      if (password.charAt(i) < '!' || password.charAt(i) > '~') {
-        return false;
-      }
-    }
-    return password.length() >= 8 && password.length() <= 16 && numberCount > 0 && letterCount > 0;
+    Pattern compile = Pattern.compile("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$");
+    Matcher matcher = compile.matcher(password);
+    return matcher.matches();
   }
 }

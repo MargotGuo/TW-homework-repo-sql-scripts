@@ -1,12 +1,8 @@
 package com.thoughtworks;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class SignUpProcessor {
-  private final static String SIGN_UP_HINT = "请输入注册信息(格式：用户名,手机号,邮箱,密码)：";
   private final static String WRONG_FORMAT_HINT = "格式错误\n请按正确格式输入注册信息：";
   private final static String INVALID_ITEM = "%s不合法\n";
   private final static String RE_INPUT_HINT = "请输入合法的注册信息：";
@@ -39,7 +35,7 @@ public class SignUpProcessor {
       System.out.println(getErrorMessage());
       new SignUpProcessor(scanner.nextLine()).signUp();
     } else {
-      saveData();
+      ConnectionUtil.saveData(new User(inputUsername, inputTelephone, inputEmail, inputPassword));
       System.out.printf(SIGN_UP_SUCCESS, inputUsername);
     }
   }
@@ -49,20 +45,6 @@ public class SignUpProcessor {
         && FormatChecker.isValidTelephone(inputTelephone)
         && FormatChecker.isValidEmail(inputEmail)
         && FormatChecker.isValidPassword(inputPassword);
-  }
-
-  private void saveData() {
-    String saveSql = "INSERT INTO account(username, telephone, email, password) VALUES (?,?,?,?)";
-    try (Connection connection = ConnectionUtil.getConnection();
-         PreparedStatement preparedStatement = connection.prepareStatement(saveSql)) {
-      preparedStatement.setString(1, inputUsername);
-      preparedStatement.setString(2, inputTelephone);
-      preparedStatement.setString(3, inputEmail);
-      preparedStatement.setString(4, inputPassword);
-      preparedStatement.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
 
   private String getErrorMessage() {
