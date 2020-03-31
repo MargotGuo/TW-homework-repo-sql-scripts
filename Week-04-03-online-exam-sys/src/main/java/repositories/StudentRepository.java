@@ -10,13 +10,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentRepository {
+public class StudentRepository extends Repository {
 
   public List<Student> query(String querySQL) {
     List<Student> studentList = new ArrayList<>();
-    try(Connection connection = ConnectionUtil.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(querySQL)) {
+    try (Connection connection = ConnectionUtil.getConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(querySQL)) {
       while (resultSet.next()) {
         studentList.add(new Student(
             resultSet.getInt("id"),

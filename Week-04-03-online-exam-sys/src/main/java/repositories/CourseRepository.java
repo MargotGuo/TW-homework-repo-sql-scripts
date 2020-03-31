@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseRepository {
+public class CourseRepository extends Repository {
 
   public static List<Course> query(String querySQL) {
     List<Course> courseList = new ArrayList<>();

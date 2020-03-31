@@ -3,6 +3,7 @@ package utils;
 import entities.Course;
 import entities.Score;
 import entities.Student;
+import entities.Teacher;
 
 import java.util.List;
 
@@ -58,6 +59,23 @@ public class Printer {
       System.out.println(SPLIT_LINE);
       for (Course course : allCourse) {
         System.out.printf("%-15s%-35s%-15s%-15s\n", course.getId(), course.getName(), course.getTeacherId(), course.getTeacherName());
+      }
+    }
+    System.out.println(FOOTER);
+  }
+
+  public static void printTeacher(List<Teacher> teacherList) {
+    System.out.println("Teacher Detail");
+    System.out.println(HEADER);
+    if (teacherList.isEmpty()) {
+      System.out.println("no teacher was selected");
+    } else {
+      System.out.printf("%-15s%-15s%-20s%-15s%-15s\n", "teacher_id", "name", "password", "gender", "age");
+      System.out.println(SPLIT_LINE);
+      for (Teacher teacher : teacherList) {
+        System.out.printf("%-15s%-15s%-20s%-15s%-15s\n",
+            teacher.getId(), teacher.getName(), teacher.getPassword(),
+            teacher.getGender(), teacher.getAge());
       }
     }
     System.out.println(FOOTER);
