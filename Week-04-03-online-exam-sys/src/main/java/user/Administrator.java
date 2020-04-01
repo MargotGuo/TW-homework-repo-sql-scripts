@@ -43,13 +43,12 @@ public class Administrator extends User {
   }
 
   @Override
-  protected void processActions(String actionType) {
+  protected void processRequest(String actionType) {
     String actionNumber = String.join("", actionType.split("\\."));
-    AdminRequest adminRequest = null;
     try {
       String className = AdminRequestType.valueOf("ADMIN_" + actionNumber).getClassName();
       Class aClass = Class.forName("requests.admin." + className);
-      adminRequest = (AdminRequest) aClass.newInstance();
+      AdminRequest adminRequest = (AdminRequest) aClass.newInstance();
       adminRequest.response();
     } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | IllegalArgumentException e) {
       System.out.println("输入错误，请重新输入：");

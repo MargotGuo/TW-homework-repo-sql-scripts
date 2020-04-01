@@ -13,11 +13,11 @@ public class QueryTeacherById extends AdminRequest {
     Scanner scanner = new Scanner(System.in);
     System.out.println("请输入老师工号");
     String teacherId = scanner.nextLine();
-    List<Teacher> teacherList = getAllTeachers(teacherId);
+    List<Teacher> teacherList = getTeacherById(teacherId);
     Printer.printTeacher(teacherList);
   }
 
-  private List<Teacher> getAllTeachers(String teacherId) {
+  public List<Teacher> getTeacherById(String teacherId) {
     String querySQL = String.format("SELECT id, name, password, gender, age FROM teacher WHERE id = %s", teacherId);
     TeacherRepository teacherRepository = new TeacherRepository();
     return teacherRepository.query(querySQL);

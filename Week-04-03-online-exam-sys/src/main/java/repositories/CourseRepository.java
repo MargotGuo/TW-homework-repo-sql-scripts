@@ -12,9 +12,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseRepository extends Repository {
+public class CourseRepository extends Repository<Course> {
 
-  public static List<Course> query(String querySQL) {
+  @Override
+  public List<Course> query(String querySQL) {
     List<Course> courseList = new ArrayList<>();
     try(Connection connection = ConnectionUtil.getConnection();
         Statement statement = connection.createStatement();

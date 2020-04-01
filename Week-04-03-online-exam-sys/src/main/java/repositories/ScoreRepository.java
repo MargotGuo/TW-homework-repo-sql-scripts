@@ -11,8 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreRepository extends Repository {
+public class ScoreRepository extends Repository<Score> {
 
+  @Override
   public List<Score> query(String querySQL) {
     List<Score> scoreList = new ArrayList<>();
     try(Connection connection = ConnectionUtil.getConnection();

@@ -13,6 +13,11 @@ public enum AdminRequestType {
   ADMIN_21("InsertStudentData"),
   ADMIN_22("InsertCourseData"),
   ADMIN_23("InsertTeacherData"),
+  ADMIN_31("UpdateScore"),
+  ADMIN_32("UpdateTeacherForCourse"),
+  ADMIN_41("RemoveStudent"),
+  ADMIN_42("RemoveCourse"),
+  ADMIN_43("RemoveTeacher"),
   ADMIN_end("EndAdminRequest");
 
   private String className;

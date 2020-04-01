@@ -17,7 +17,7 @@ public class QueryCourseById extends AdminRequest {
     Printer.printCourse(courseList);
   }
 
-  private List<Course> getCourseById(String courseId) {
+  public List<Course> getCourseById(String courseId) {
     String querySQL = String.format("SELECT \n" +
         "    course.id AS id,\n" +
         "    course.name AS name,\n" +
@@ -29,6 +29,6 @@ public class QueryCourseById extends AdminRequest {
         "        INNER JOIN\n" +
         "    teacher ON course.teacher_id = teacher.id WHERE course.id = %s", courseId);
     CourseRepository courseRepository = new CourseRepository();
-    return CourseRepository.query(querySQL);
+    return courseRepository.query(querySQL);
   }
 }

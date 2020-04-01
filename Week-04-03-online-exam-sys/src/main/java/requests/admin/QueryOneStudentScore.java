@@ -24,14 +24,15 @@ public class QueryOneStudentScore extends AdminRequest {
     }
   }
 
-  private List<Student> getOneStudentData(String studentId) {
+  public List<Student> getOneStudentData(String studentId) {
     String querySQL = String.format("SELECT id, name, password, gender, age, admission_date FROM student WHERE id = %s", studentId);
     StudentRepository studentRepository = new StudentRepository();
     return studentRepository.query(querySQL);
   }
 
   private List<Score> getScoreListByStudentId(int id) {
-    String querySQL = String.format("SELECT score.id, student_id, course_id, course.name, answer, score FROM score, course WHERE course_id = course.id AND student_id = %s", id);
+    String querySQL = String.format("SELECT score.id, student_id, course_id, course.name, answer, score FROM score, course " +
+        "WHERE course_id = course.id AND student_id = %s", id);
     ScoreRepository scoreRepository = new ScoreRepository();
     return scoreRepository.query(querySQL);
   }

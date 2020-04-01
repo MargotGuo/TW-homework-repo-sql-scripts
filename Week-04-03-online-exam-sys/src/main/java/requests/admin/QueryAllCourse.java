@@ -2,7 +2,6 @@ package requests.admin;
 
 import entities.Course;
 import repositories.CourseRepository;
-import repositories.StudentRepository;
 import utils.Printer;
 
 import java.util.List;
@@ -26,6 +25,6 @@ public class QueryAllCourse extends AdminRequest {
         "        INNER JOIN\n" +
         "    teacher ON course.teacher_id = teacher.id";
     CourseRepository courseRepository = new CourseRepository();
-    return CourseRepository.query(querySQL);
+    return courseRepository.query(querySQL);
   }
 }

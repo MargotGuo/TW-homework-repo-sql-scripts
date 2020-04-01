@@ -10,8 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentRepository extends Repository {
+public class StudentRepository extends Repository<Student> {
 
+  @Override
   public List<Student> query(String querySQL) {
     List<Student> studentList = new ArrayList<>();
     try (Connection connection = ConnectionUtil.getConnection();

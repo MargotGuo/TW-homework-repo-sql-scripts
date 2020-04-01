@@ -21,4 +21,8 @@ public class FormatChecker {
     Matcher matcher = compile.matcher(password);
     return matcher.matches();
   }
+
+  public static boolean isValidScore(String score) {
+    return Double.parseDouble(score) <= 100 && Double.parseDouble(score) >= 0;
+  }
 }

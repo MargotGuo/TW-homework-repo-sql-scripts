@@ -1,9 +1,9 @@
 package requests.admin;
 
-import entities.Student;
 import repositories.StudentRepository;
 import utils.FormatChecker;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class InsertStudentData extends AdminRequest {
@@ -15,7 +15,12 @@ public class InsertStudentData extends AdminRequest {
     String inputStudentDetail = scanner.nextLine();
     String[] splitInput = inputStudentDetail.split(",");
     if (isValid(splitInput)) {
-      saveStudentDate(splitInput);
+      try {
+        saveStudent(splitInput);
+        System.out.printf("添加学生[%s,%s]成功\n", splitInput[0], splitInput[1]);
+      } catch (SQLException e) {
+        System.out.println("输入错误");
+      }
     } else {
       System.out.println("输入错误");
     }
@@ -30,10 +35,10 @@ public class InsertStudentData extends AdminRequest {
         FormatChecker.isValidPassword(splitInput[2]);
   }
 
-  private void saveStudentDate(String[] splitInput) {
+  private void saveStudent(String[] splitInput) throws SQLException {
     String insertSQL = String.format("INSERT INTO student VALUES (%s,'%s','%s','%s',%s,'%s')",
         splitInput[0], splitInput[1], splitInput[2], splitInput[3], splitInput[4], splitInput[5]);
     StudentRepository studentRepository = new StudentRepository();
-    studentRepository.save(insertSQL);
+    studentRepository.update(insertSQL);
   }
 }

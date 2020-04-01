@@ -30,6 +30,6 @@ public class QueryCourseByTeacher extends AdminRequest {
         "    teacher ON course.teacher_id = teacher.id " +
         "WHERE teacher.id = '%s'", teacherId);
     CourseRepository courseRepository = new CourseRepository();
-    return CourseRepository.query(querySQL);
+    return courseRepository.query(querySQL);
   }
 }
