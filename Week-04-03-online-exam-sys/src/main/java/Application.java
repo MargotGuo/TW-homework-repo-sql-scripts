@@ -22,19 +22,14 @@ public class Application {
     User user = null;
     do {
       userNumber = inputUserNumber();
-      switch (userNumber) {
-        case "1":
-          user = new Administrator();
-          break;
-        case "2":
-          user = new StudentUser();
-          break;
-        case "3":
-          user = new TeacherUser();
-          break;
-        default:
-          System.out.println(ACCOUNT_ERROR);
-          break;
+      if (userNumber.equals("1")) {
+        user = new Administrator();
+      } else if (userNumber.equals("2")) {
+        user = new StudentUser();
+      } else if (userNumber.equals("3")) {
+        user = new TeacherUser();
+      } else {
+        System.out.println(ACCOUNT_ERROR);
       }
     } while (!isValidUserNumber(userNumber));
     return user;
