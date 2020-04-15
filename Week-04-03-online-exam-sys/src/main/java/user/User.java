@@ -39,7 +39,7 @@ public abstract class User {
     } while (!isMatched);
   }
 
-  protected boolean isMatchedWithDataBase(String[] inputLogInDetail) {
+  boolean isMatchedWithDataBase(String[] inputLogInDetail) {
     if (!isValidInput(inputLogInDetail)) {
       return false;
     }

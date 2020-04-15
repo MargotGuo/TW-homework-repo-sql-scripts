@@ -15,7 +15,10 @@ public class TeacherUser extends User {
 
   @Override
   protected void processRequest(String actionType) {
+  }
 
+  private void sayHi() {
+    System.out.println("a");
   }
 
 }

@@ -17,6 +17,10 @@ public class Score {
     this.score = score;
   }
 
+  public static void main(String[] args) {
+    Course course = new Course();
+  }
+
   public int getId() {
     return id;
   }

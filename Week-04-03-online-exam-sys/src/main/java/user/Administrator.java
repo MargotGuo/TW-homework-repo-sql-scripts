@@ -5,6 +5,8 @@ import requests.admin.AdminRequestType;
 
 public class Administrator extends User {
 
+  private String a;
+
   private final static String MENU =
       "您好，超级管理员 %s，请选择你需要进行的操作：\n" +
       "    1. 查询   \n" +
@@ -37,6 +39,9 @@ public class Administrator extends User {
     setTableName("administrator");
   }
 
+  public Administrator(String a) {
+  }
+
   @Override
   public void showMenu() {
     System.out.printf(MENU, getName());
@@ -47,7 +52,7 @@ public class Administrator extends User {
     String actionNumber = String.join("", actionType.split("\\."));
     try {
       String className = AdminRequestType.valueOf("ADMIN_" + actionNumber).getClassName();
-      Class aClass = Class.forName("requests.admin." + className);
+      Class<?> aClass = Class.forName("requests.admin." + className);
       AdminRequest adminRequest = (AdminRequest) aClass.newInstance();
       adminRequest.response();
     } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | IllegalArgumentException e) {

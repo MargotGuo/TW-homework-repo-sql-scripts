@@ -23,7 +23,7 @@ public class Application {
     do {
       userNumber = inputUserNumber();
       if (userNumber.equals("1")) {
-        user = new Administrator();
+        user = new Administrator("a");
       } else if (userNumber.equals("2")) {
         user = new StudentUser();
       } else if (userNumber.equals("3")) {
