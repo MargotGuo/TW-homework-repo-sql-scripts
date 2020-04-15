@@ -26,7 +26,7 @@ CREATE TABLE movie(
   ratings_count INT,
   reviews_count INT,
   share_url VARCHAR(100),
-  summary VARCHAR(1000),
+  summary TEXT,
   tags VARCHAR(100),
   title VARCHAR(100),
   writers VARCHAR(100),
